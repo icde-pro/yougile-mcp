@@ -1,0 +1,58 @@
+import { createWriteStream, existsSync, writeFileSync } from 'fs';
+import { join } from 'path';
+
+const LOG_FILE_PATH = join(process.cwd(), 'yougile-mcp-debug.log');
+
+// Initialize log file with header
+if (!existsSync(LOG_FILE_PATH)) {
+    writeFileSync(LOG_FILE_PATH, `# Yougile MCP Server Debug Log\n`);
+    writeFileSync(LOG_FILE_PATH, `# Log started at: ${new Date().toISOString()}\n\n`);
+}
+
+const logStream = createWriteStream(LOG_FILE_PATH, { flags: 'a' });
+
+export function logRequest(method: string, url: string, headers: Record<string, string>, body: any = null) {
+  const timestamp = new Date().toISOString();
+  const logEntry = `\n[${timestamp}] REQUEST\n`;
+  logStream.write(logEntry);
+  logStream.write(`Method: ${method}\n`);
+  logStream.write(`URL: ${url}\n`);
+  
+  // Don't log sensitive headers like Authorization
+  const safeHeaders = { ...headers };
+  if (safeHeaders['Authorization']) {
+    safeHeaders['Authorization'] = '[REDACTED - Authorization header hidden]';
+  }
+  logStream.write(`Headers: ${JSON.stringify(safeHeaders, null, 2)}\n`);
+  
+  if (body) {
+    logStream.write(`Body: ${JSON.stringify(body, null, 2)}\n`);
+  }
+  logStream.write('---\n');
+}
+
+export function logResponse(url: string, status: number, response: any) {
+  const timestamp = new Date().toISOString();
+  const logEntry = `\n[${timestamp}] RESPONSE\n`;
+  logStream.write(logEntry);
+  logStream.write(`URL: ${url}\n`);
+  logStream.write(`Status: ${status}\n`);
+  
+  if (response) {
+    logStream.write(`Response: ${JSON.stringify(response, null, 2)}\n`);
+  }
+  logStream.write('---\n');
+}
+
+export function logError(url: string, error: any) {
+  const timestamp = new Date().toISOString();
+  const logEntry = `\n[${timestamp}] ERROR\n`;
+  logStream.write(logEntry);
+  logStream.write(`URL: ${url}\n`);
+  logStream.write(`Error: ${error instanceof Error ? error.message : JSON.stringify(error)}\n`);
+  
+  if (error instanceof Error && error.stack) {
+    logStream.write(`Stack: ${error.stack}\n`);
+  }
+  logStream.write('---\n');
+}
