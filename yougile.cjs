@@ -1,12 +1,8 @@
 #!/usr/bin/env node
-import 'dotenv/config';
-import {spawnSync} from 'child_process';
-import {existsSync} from 'fs';
-import {dirname, join} from 'path';
-import {fileURLToPath} from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const {spawnSync} = require('child_process');
+const {existsSync} = require('fs');
+const {join} = require('path');
+require('dotenv/config');
 
 // Check if the required environment variables are set
 if (!process.env.YOUGILE_API_KEY) {
@@ -14,6 +10,10 @@ if (!process.env.YOUGILE_API_KEY) {
     console.error("Please add YOUGILE_API_KEY to your .env file or environment.");
     process.exit(1);
 }
+
+console.error("Starting Yougile MCP server from directory:", __dirname);
+console.error("Current working directory:", process.cwd());
+console.error("Build path:", join(__dirname, 'build', 'index.js'));
 
 // Check if build directory exists and build if needed
 const buildPath = join(__dirname, 'build', 'index.js');
@@ -35,9 +35,11 @@ if (!existsSync(buildPath)) {
 // Import and run the built server
 async function startServer() {
     try {
-        const serverUrl = new URL(`file://${buildPath}`);
-        await import(serverUrl);
+        await require(buildPath);
+        console.error("Server imported successfully");
     } catch (error) {
+        console.error('Failed to start Yougile MCP server:', error.message);
+        console.error('Stack trace:', error.stack);
         process.exit(1);
     }
 }
@@ -45,12 +47,4 @@ async function startServer() {
 startServer();
 
 // Keep the process alive for MCP communication through stdio
-// Using a more robust method to keep the process alive
-const keepAlive = setInterval(() => {
-    // Do nothing, just keep the event loop alive
-}, 60000); // Run every minute
-
-process.stdin.setEncoding('utf8');
-process.stdin.on('readable', () => {
-    // Process stdin data if needed
-});
+process.stdin.resume();

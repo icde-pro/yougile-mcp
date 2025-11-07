@@ -447,17 +447,7 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 yougile-mcp-debug.log
-/.idea/inspectionProfiles/profiles_settings.xml
-/.idea/.gitignore
-/.idea/copilot.data.migration.agent.xml
-/.idea/copilot.data.migration.ask.xml
-/.idea/copilot.data.migration.ask2agent.xml
-/.idea/copilot.data.migration.edit.xml
-/.idea/deployment.xml
-/.idea/misc.xml
-/.idea/modules.xml
-/.idea/vcs.xml
-/.idea/yougile-mcp.iml
+/.idea/
 /build/common/logger.js
 /build/common/request-helper.js
 /build/common/version.js

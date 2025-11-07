@@ -2,11 +2,14 @@
 
 ## Project Overview
 
-The Yougile MCP Server is a Model Context Protocol (MCP) server that enables AI agents and developer tools to interact programmatically with Yougile workspaces. It provides a bridge between MCP-compatible clients (like Claude Desktop) and the Yougile API, allowing for management of projects, tasks, users, boards, columns, and task discussions.
+The Yougile MCP Server is a Model Context Protocol (MCP) server that enables AI agents and developer tools to interact
+programmatically with Yougile workspaces. It provides a bridge between MCP-compatible clients (like Claude Desktop) and
+the Yougile API, allowing for management of projects, tasks, users, boards, columns, and task discussions.
 
 ## Architecture
 
 The project is built using:
+
 - **TypeScript**: For type-safe development
 - **Node.js**: Runtime environment
 - **@modelcontextprotocol/sdk**: MCP protocol implementation
@@ -15,17 +18,19 @@ The project is built using:
 - **Dotenv**: Environment variable management
 
 The codebase follows a modular structure:
+
 - `src/`: TypeScript source files
-  - `src/common/`: Shared utilities (API request handler, version management)
-  - `src/tools/`: Individual tool implementations for different Yougile features
-  - `src/index.ts`: Main entry point
-  - `src/server.ts`: MCP server initialization
+    - `src/common/`: Shared utilities (API request handler, version management)
+    - `src/tools/`: Individual tool implementations for different Yougile features
+    - `src/index.ts`: Main entry point
+    - `src/server.ts`: MCP server initialization
 - `build/`: Compiled JavaScript output
 - `docs/`: API documentation (OpenAPI specification)
 
 ## Available Tools
 
 ### Core Management Tools
+
 - **User Management**: `get_users`, `get_user`, `create_user`, `update_user`, `delete_user`
 - **Project Management**: `get_projects`, `get_project`, `create_project`, `update_project`
 - **Task Management**: `get_tasks`, `get_task`, `create_task`, `update_task`
@@ -33,16 +38,19 @@ The codebase follows a modular structure:
 - **Column Management**: `get_columns`, `get_column`, `create_column`, `update_column`
 
 ### Chat/Comment Tools
+
 - **Task Discussions**: `get_task_chat`, `send_task_message`, `get_task_messages`
 
 ## Building and Running
 
 ### Prerequisites
+
 - Node.js 18 or higher
 - A Yougile account with API access
 - Valid Yougile API key
 
 ### Setup and Installation
+
 1. Install dependencies:
    ```
    npm install
@@ -53,9 +61,10 @@ The codebase follows a modular structure:
    npm run build
    ```
 
-3. Configure the MCP server with your API key in `.kilocode/mcp.json` or system environment
+3. Configure the MCP
 
 ### Available Scripts
+
 - `npm run build`: Compiles TypeScript to JavaScript
 - `npm run serve`: Builds and runs the server
 - `npm run dev`: Development mode with auto-rebuild
@@ -64,7 +73,9 @@ The codebase follows a modular structure:
 ## Configuration
 
 ### MCP Configuration
-The server integrates with MCP-compatible tools via configuration in `.kilocode/mcp.json` or equivalent. Key configuration:
+
+The server integrates with MCP-compatible tools via configuration in `.kilocode/mcp.json` or equivalent. Key
+configuration:
 
 ```json
 {
@@ -83,6 +94,7 @@ The server integrates with MCP-compatible tools via configuration in `.kilocode/
 ```
 
 ### Environment Variables
+
 - `YOUGILE_API_KEY`: Required - Your Yougile API token
 - `YOUGILE_API_HOST_URL`: Optional - API host URL (defaults to https://yougile.com/api-v2/)
 
@@ -97,6 +109,7 @@ The server integrates with MCP-compatible tools via configuration in `.kilocode/
 ## API Integration
 
 The server communicates with the Yougile API v2 using:
+
 - Base URL: `https://yougile.com/api-v2/` (configurable)
 - Authentication: Bearer token via `Authorization` header
 - Content type: `application/json`
@@ -105,6 +118,7 @@ The server communicates with the Yougile API v2 using:
 ## Deployment
 
 The server can be run directly using Node.js after building:
+
 1. Ensure `YOUGILE_API_KEY` is available in the environment
 2. Run `npm run serve` or execute `node yougile.js` directly
 3. The server will automatically build if needed and start the MCP service
@@ -112,12 +126,14 @@ The server can be run directly using Node.js after building:
 ## Troubleshooting
 
 Common issues:
+
 - API key not set: Ensure `YOUGILE_API_KEY` is properly configured
 - Build issues: Run `npm run build` to compile TypeScript
 - Connection closed errors: Check API key validity and network connectivity
 - Method not found: Verify tool names match those defined in the server
 
 ## Files Structure
+
 - `package.json` - Project dependencies and scripts
 - `tsconfig.json` - TypeScript compiler configuration
 - `yougile.js` - Main entry point that handles auto-building
