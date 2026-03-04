@@ -237,6 +237,84 @@ To run in development mode with auto-rebuild:
 npm run dev
 ```
 
+## API Coverage
+
+This MCP server implements **~30%** of the Yougile API v2.0 endpoints.
+
+### ✅ Implemented (20 endpoints)
+
+#### Users (5 methods)
+- `GET /api-v2/users` - Get all users
+- `GET /api-v2/users/{id}` - Get user by ID
+- `POST /api-v2/users` - Invite user to company
+- `PUT /api-v2/users/{id}` - Update user
+- `DELETE /api-v2/users/{id}` - Remove user from company
+
+#### Projects (4 methods)
+- `GET /api-v2/projects` - Get all projects
+- `GET /api-v2/projects/{id}` - Get project by ID
+- `POST /api-v2/projects` - Create project
+- `PUT /api-v2/projects/{id}` - Update project
+
+#### Tasks (4 methods)
+- `GET /api-v2/task-list` - Get all tasks
+- `GET /api-v2/tasks/{id}` - Get task by ID
+- `POST /api-v2/tasks` - Create task
+- `PUT /api-v2/tasks/{id}` - Update task
+
+#### Boards (4 methods)
+- `GET /api-v2/boards` - Get all boards
+- `GET /api-v2/boards/{id}` - Get board by ID
+- `POST /api-v2/boards` - Create board
+- `PUT /api-v2/boards/{id}` - Update board
+
+#### Columns (4 methods)
+- `GET /api-v2/columns` - Get all columns
+- `GET /api-v2/columns/{id}` - Get column by ID
+- `POST /api-v2/columns` - Create column
+- `PUT /api-v2/columns/{id}` - Update column
+
+#### Task Chat (3 methods)
+- `GET /api-v2/chats/{chatId}/messages` - Get task chat messages
+- `POST /api-v2/chats/{chatId}/messages` - Send message to task chat
+- `GET /api-v2/chats/{chatId}/messages` - Get task messages (alternative)
+
+### ❌ Not Implemented (45+ endpoints)
+
+#### Auth
+- Companies list, API keys management (create, list, delete)
+
+#### Companies
+- Get company details, update company
+
+#### Departments
+- Full CRUD operations for departments
+
+#### Project Roles
+- Full CRUD operations for project roles
+
+#### Stickers
+- String stickers (with states) - full CRUD
+- Sprint stickers - full CRUD
+- Sticker states management
+
+#### Group Chats
+- Full CRUD operations for group chats
+
+#### Webhooks
+- Create, list, update webhooks
+
+#### Files
+- File upload functionality
+
+#### CRM
+- Contact persons management
+- External ID lookup
+
+#### Additional
+- Task chat subscribers management
+- Delete operations for tasks, boards, columns
+
 ## API Documentation
 
 For more details about the Yougile API endpoints, see the OpenAPI specification at `docs/open-api-v2.json`.
