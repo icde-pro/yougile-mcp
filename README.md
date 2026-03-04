@@ -22,12 +22,17 @@ This server unlocks all sorts of useful capabilities for anyone working with You
 
 ## Getting Your Yougile API Key
 
-### Method 1: Using the Yougile Web Interface
+### Method 1: Using Yougile Configurator (Recommended)
 
-1. Log in to your Yougile account at https://yougile.com
-2. Go to Settings > API Keys
-3. Create a new API key with the necessary permissions
-4. Copy the API key (save it securely, as you won't be able to see it again)
+The easiest way to get your API key is through the built-in Yougile configurator.
+
+**How to open the configurator:**
+- Press `Ctrl + ~` in the Yougile app, **or**
+- Go to the Projects page → click the gear icon ⚙️ next to your company name → select "Configure" (Настроить)
+
+Once in the configurator:
+1. Navigate to API settings
+2. Generate or copy your API key
 
 ### Method 2: Using cURL
 
@@ -39,7 +44,7 @@ curl -X POST "https://yougile.com/api-v2/auth/keys" \
   -d '{
     "login": "your_email@example.com",
     "password": "your_password",
-    "companyName": "Your Company Name"
+    "companyId": "your_company_id"
   }'
 ```
 
@@ -52,11 +57,22 @@ To retrieve your existing API keys:
 ```bash
 curl -X POST "https://yougile.com/api-v2/auth/keys/get" \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_EXISTING_API_KEY" \
   -d '{
-    "company": "Company ID or Name"
+    "login": "your_email@example.com",
+    "password": "your_password"
   }'
 ```
+
+### Getting Company ID
+
+You'll need your Company ID for some API operations. Here are the ways to get it:
+
+**Keyboard Shortcut (Recommended)**
+- Press `Ctrl + Alt + Q` (Windows/Linux) or `Ctrl + Option + Q` (Mac) in Yougile
+- The Company ID will appear on screen and automatically copy to your clipboard
+
+**Via API**
+- Use the `/api-v2/auth/companies` endpoint with your login credentials to list all your companies
 
 ## Installation
 
@@ -236,6 +252,84 @@ To run in development mode with auto-rebuild:
 ```bash
 npm run dev
 ```
+
+## API Coverage
+
+This MCP server implements **~30%** of the Yougile API v2.0 endpoints.
+
+### ✅ Implemented (20 endpoints)
+
+#### Users (5 methods)
+- `GET /api-v2/users` - Get all users
+- `GET /api-v2/users/{id}` - Get user by ID
+- `POST /api-v2/users` - Invite user to company
+- `PUT /api-v2/users/{id}` - Update user
+- `DELETE /api-v2/users/{id}` - Remove user from company
+
+#### Projects (4 methods)
+- `GET /api-v2/projects` - Get all projects
+- `GET /api-v2/projects/{id}` - Get project by ID
+- `POST /api-v2/projects` - Create project
+- `PUT /api-v2/projects/{id}` - Update project
+
+#### Tasks (4 methods)
+- `GET /api-v2/task-list` - Get all tasks
+- `GET /api-v2/tasks/{id}` - Get task by ID
+- `POST /api-v2/tasks` - Create task
+- `PUT /api-v2/tasks/{id}` - Update task
+
+#### Boards (4 methods)
+- `GET /api-v2/boards` - Get all boards
+- `GET /api-v2/boards/{id}` - Get board by ID
+- `POST /api-v2/boards` - Create board
+- `PUT /api-v2/boards/{id}` - Update board
+
+#### Columns (4 methods)
+- `GET /api-v2/columns` - Get all columns
+- `GET /api-v2/columns/{id}` - Get column by ID
+- `POST /api-v2/columns` - Create column
+- `PUT /api-v2/columns/{id}` - Update column
+
+#### Task Chat (3 methods)
+- `GET /api-v2/chats/{chatId}/messages` - Get task chat messages
+- `POST /api-v2/chats/{chatId}/messages` - Send message to task chat
+- `GET /api-v2/chats/{chatId}/messages` - Get task messages (alternative)
+
+### ❌ Not Implemented (45+ endpoints)
+
+#### Auth
+- Companies list, API keys management (create, list, delete)
+
+#### Companies
+- Get company details, update company
+
+#### Departments
+- Full CRUD operations for departments
+
+#### Project Roles
+- Full CRUD operations for project roles
+
+#### Stickers
+- String stickers (with states) - full CRUD
+- Sprint stickers - full CRUD
+- Sticker states management
+
+#### Group Chats
+- Full CRUD operations for group chats
+
+#### Webhooks
+- Create, list, update webhooks
+
+#### Files
+- File upload functionality
+
+#### CRM
+- Contact persons management
+- External ID lookup
+
+#### Additional
+- Task chat subscribers management
+- Delete operations for tasks, boards, columns
 
 ## API Documentation
 
