@@ -22,16 +22,17 @@ This server unlocks all sorts of useful capabilities for anyone working with You
 
 ## Getting Your Yougile API Key
 
-### Method 1: Using Yougile Configurator
+### Method 1: Using Yougile Configurator (Recommended)
 
-The easiest way to get your API key is through the Yougile Configurator:
+The easiest way to get your API key is through the built-in Yougile configurator.
 
-📖 **Guide**: [Modifying Yougile for Your Needs - Configurator](https://shafeev.net/notes/modifikacziya-yougile-pod-svoi-nuzhny-konfigurator/)
+**How to open the configurator:**
+- Press `Ctrl + ~` in the Yougile app, **or**
+- Go to the Projects page → click the gear icon ⚙️ next to your company name → select "Configure" (Настроить)
 
-1. Open the configurator tool
-2. Log in with your Yougile credentials
-3. Select your company
-4. Generate or copy your API key
+Once in the configurator:
+1. Navigate to API settings
+2. Generate or copy your API key
 
 ### Method 2: Using cURL
 
