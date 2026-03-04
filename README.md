@@ -22,12 +22,16 @@ This server unlocks all sorts of useful capabilities for anyone working with You
 
 ## Getting Your Yougile API Key
 
-### Method 1: Using the Yougile Web Interface
+### Method 1: Using Yougile Configurator
 
-1. Log in to your Yougile account at https://yougile.com
-2. Go to Settings > API Keys
-3. Create a new API key with the necessary permissions
-4. Copy the API key (save it securely, as you won't be able to see it again)
+The easiest way to get your API key is through the Yougile Configurator:
+
+📖 **Guide**: [Modifying Yougile for Your Needs - Configurator](https://shafeev.net/notes/modifikacziya-yougile-pod-svoi-nuzhny-konfigurator/)
+
+1. Open the configurator tool
+2. Log in with your Yougile credentials
+3. Select your company
+4. Generate or copy your API key
 
 ### Method 2: Using cURL
 
@@ -39,7 +43,7 @@ curl -X POST "https://yougile.com/api-v2/auth/keys" \
   -d '{
     "login": "your_email@example.com",
     "password": "your_password",
-    "companyName": "Your Company Name"
+    "companyId": "your_company_id"
   }'
 ```
 
@@ -52,11 +56,22 @@ To retrieve your existing API keys:
 ```bash
 curl -X POST "https://yougile.com/api-v2/auth/keys/get" \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_EXISTING_API_KEY" \
   -d '{
-    "company": "Company ID or Name"
+    "login": "your_email@example.com",
+    "password": "your_password"
   }'
 ```
+
+### Getting Company ID
+
+You'll need your Company ID for some API operations. Here are the ways to get it:
+
+**Keyboard Shortcut (Recommended)**
+- Press `Ctrl + Alt + Q` (Windows/Linux) or `Ctrl + Option + Q` (Mac) in Yougile
+- The Company ID will appear on screen and automatically copy to your clipboard
+
+**Via API**
+- Use the `/api-v2/auth/companies` endpoint with your login credentials to list all your companies
 
 ## Installation
 
