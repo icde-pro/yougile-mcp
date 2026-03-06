@@ -1,17 +1,26 @@
 import { createWriteStream, existsSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
+// Debug logging is disabled by default
+// Enable with YOUGILE_DEBUG=1 environment variable
+const DEBUG_ENABLED = process.env.YOUGILE_DEBUG === '1';
+
 const LOG_FILE_PATH = join(process.cwd(), 'yougile-mcp-debug.log');
 
-// Initialize log file with header
-if (!existsSync(LOG_FILE_PATH)) {
-    writeFileSync(LOG_FILE_PATH, `# Yougile MCP Server Debug Log\n`);
-    writeFileSync(LOG_FILE_PATH, `# Log started at: ${new Date().toISOString()}\n\n`);
+let logStream: ReturnType<typeof createWriteStream> | null = null;
+
+// Initialize log file with header only if debug is enabled
+if (DEBUG_ENABLED) {
+    if (!existsSync(LOG_FILE_PATH)) {
+        writeFileSync(LOG_FILE_PATH, `# Yougile MCP Server Debug Log\n`);
+        writeFileSync(LOG_FILE_PATH, `# Log started at: ${new Date().toISOString()}\n\n`);
+    }
+    logStream = createWriteStream(LOG_FILE_PATH, { flags: 'a' });
 }
 
-const logStream = createWriteStream(LOG_FILE_PATH, { flags: 'a' });
-
 export function logRequest(method: string, url: string, headers: Record<string, string>, body: any = null) {
+  if (!DEBUG_ENABLED || !logStream) return;
+  
   const timestamp = new Date().toISOString();
   const logEntry = `\n[${timestamp}] REQUEST\n`;
   logStream.write(logEntry);
@@ -32,6 +41,8 @@ export function logRequest(method: string, url: string, headers: Record<string, 
 }
 
 export function logResponse(url: string, status: number, response: any) {
+  if (!DEBUG_ENABLED || !logStream) return;
+  
   const timestamp = new Date().toISOString();
   const logEntry = `\n[${timestamp}] RESPONSE\n`;
   logStream.write(logEntry);
@@ -45,6 +56,8 @@ export function logResponse(url: string, status: number, response: any) {
 }
 
 export function logError(url: string, error: any) {
+  if (!DEBUG_ENABLED || !logStream) return;
+  
   const timestamp = new Date().toISOString();
   const logEntry = `\n[${timestamp}] ERROR\n`;
   logStream.write(logEntry);
