@@ -164,6 +164,7 @@ If you experience "MCP error -32000: Connection closed" when working with differ
 
 - `YOUGILE_API_KEY` - Your Yougile API token (required)
 - `YOUGILE_API_HOST_URL` (optional) - The host URL of the Yougile API Server. Defaults to https://yougile.com/api-v2/
+- `YOUGILE_DEBUG` (optional) - Set to `1` to enable debug logging. Logs are written to `yougile-mcp-debug.log` in the current working directory. Disabled by default.
 
 ## Available Tools
 

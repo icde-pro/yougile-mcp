@@ -9,11 +9,6 @@ export function createServer() {
   const server = new McpServer({
     name: "yougile-mcp-server",
     version,
-    capabilities: {
-      tools: {
-        list: true,
-      },
-    },
   });
 
   registerTools(server);
