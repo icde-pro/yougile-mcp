@@ -51,17 +51,21 @@ export const registerTaskChatTools = (server: McpServer) => {
 
   server.tool(
     "send_task_message",
-    "Send a message to a specific task's chat",
+    "Send a message to a specific task's chat. For images, upload file first then use textHtml with <img> tag.",
     {
       taskId: z.string().describe("The ID of the task to send the message to (use the task UUID)"),
       text: z.string().describe("The message text to send"),
+      textHtml: z.string().optional().describe("HTML formatted message. For images: <img src=\"/user-data/.../file.jpg\" />"),
+      label: z.string().optional().describe("Quick link label (optional)"),
     },
-    async ({ taskId, text }) => {
+    async ({ taskId, text, textHtml, label }) => {
       try {
-        const messageData = { text };
+        const messageData: any = { 
+          text,
+          textHtml: textHtml || "",
+          label: label || ""
+        };
         
-        // For sending messages, we need to determine if Yougile uses the same pattern
-        // Based on the GET pattern, it's likely: /api-v2/chats/{taskId}/messages
         const result = await makeYougileRequest("POST", `chats/${taskId}/messages`, messageData);
         
         return {
