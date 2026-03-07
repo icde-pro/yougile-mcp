@@ -185,10 +185,11 @@ If you experience "MCP error -32000: Connection closed" when working with differ
 
 ### Tasks
 
-- `get_tasks` - Get all tasks for a specific project or column
-- `get_task` - Get a specific task by ID
+- `get_tasks` - Get tasks list with filters (columnId, assignedTo, title). **Note: projectId filter is NOT supported by YouGile API!**
+- `get_user_tasks` - Get ALL tasks assigned to a user (recommended for complete task list)
+- `get_task` - Get a specific task by ID (supports both UUID and task code like "SAI-515")
 - `create_task` - Create a new task
-- `update_task` - Update an existing task
+- `update_task` - Update an existing task (supports completed, archived flags)
 
 ### Boards
 
@@ -256,28 +257,36 @@ npm run dev
 
 ## API Coverage
 
-This MCP server implements **~30%** of the Yougile API v2.0 endpoints.
+This MCP server implements **~30%** of the YouGile API v2.0 endpoints.
 
-### ✅ Implemented (20 endpoints)
+### ⚠️ Important API Notes
+
+1. **`projectId` filter is NOT supported** by YouGile API for `get_tasks`! Use `columnId` or `assignedTo` instead.
+2. **`assignedTo` filter works correctly** for all projects when querying tasks.
+3. **Task codes like "SAI-515" work** in `get_task` - the API accepts both UUID and task codes.
+4. Use `get_user_tasks` for a complete list of user's tasks across all projects.
+
+### ✅ Implemented (22 tools)
 
 #### Users (5 methods)
-- `GET /api-v2/users` - Get all users
-- `GET /api-v2/users/{id}` - Get user by ID
-- `POST /api-v2/users` - Invite user to company
-- `PUT /api-v2/users/{id}` - Update user
-- `DELETE /api-v2/users/{id}` - Remove user from company
+- `get_users` - Get all users
+- `get_user` - Get user by ID
+- `create_user` - Invite user to company
+- `update_user` - Update user
+- `delete_user` - Remove user from company
 
 #### Projects (4 methods)
-- `GET /api-v2/projects` - Get all projects
-- `GET /api-v2/projects/{id}` - Get project by ID
-- `POST /api-v2/projects` - Create project
-- `PUT /api-v2/projects/{id}` - Update project
+- `get_projects` - Get all projects
+- `get_project` - Get project by ID
+- `create_project` - Create project
+- `update_project` - Update project
 
-#### Tasks (4 methods)
-- `GET /api-v2/task-list` - Get all tasks
-- `GET /api-v2/tasks/{id}` - Get task by ID
-- `POST /api-v2/tasks` - Create task
-- `PUT /api-v2/tasks/{id}` - Update task
+#### Tasks (6 methods)
+- `get_tasks` - Get tasks with filters (columnId, assignedTo, title). **Note: projectId NOT supported!**
+- `get_user_tasks` - Get ALL tasks assigned to a user (recommended for complete list)
+- `get_task` - Get task by ID (supports UUID and task codes like "SAI-515")
+- `create_task` - Create task
+- `update_task` - Update task (supports completed, archived flags)
 
 #### Boards (4 methods)
 - `GET /api-v2/boards` - Get all boards
