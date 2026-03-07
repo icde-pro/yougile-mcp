@@ -1,5 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
+import * as fs from "fs";
+import * as path from "path";
 
 import { makeYougileRequest } from "../common/request-helper.js";
 
@@ -99,14 +101,16 @@ export const registerTaskTools = (server: McpServer) => {
       columnId: z.string().describe("The ID of the column to add the task to"),
       description: z.string().optional().describe("The description of the task"),
       assigned: z.array(z.string()).optional().describe("Array of user IDs to assign the task to"),
+      stickers: z.record(z.string(), z.string()).optional().describe("Custom stickers as sticker ID → state ID"),
     },
-    async ({ title, columnId, description, assigned }) => {
+    async ({ title, columnId, description, assigned, stickers }) => {
       const taskData: any = { 
         title,
         columnId
       };
       if (description) taskData.description = description;
       if (assigned) taskData.assigned = assigned;
+      if (stickers) taskData.stickers = stickers;
 
       const result = await makeYougileRequest("POST", "tasks", taskData);
       return {
@@ -131,8 +135,9 @@ export const registerTaskTools = (server: McpServer) => {
       assigned: z.array(z.string()).optional().describe("Array of user IDs to assign the task to"),
       completed: z.boolean().optional().describe("Mark task as completed"),
       archived: z.boolean().optional().describe("Archive/unarchive the task"),
+      stickers: z.record(z.string(), z.string()).optional().describe("Custom stickers as sticker ID → state ID. Use '-' to remove, sticker."),
     },
-    async ({ id, title, description, columnId, assigned, completed, archived }) => {
+    async ({ id, title, description, columnId, assigned, completed, archived, stickers }) => {
       const taskData: any = {};
       if (title !== undefined) taskData.title = title;
       if (description !== undefined) taskData.description = description;
@@ -140,6 +145,7 @@ export const registerTaskTools = (server: McpServer) => {
       if (assigned !== undefined) taskData.assigned = assigned;
       if (completed !== undefined) taskData.completed = completed;
       if (archived !== undefined) taskData.archived = archived;
+      if (stickers !== undefined) taskData.stickers = stickers;
 
       const result = await makeYougileRequest("PUT", `tasks/${id}`, taskData);
       return {
