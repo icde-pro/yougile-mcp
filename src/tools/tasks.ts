@@ -1,5 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
+import * as fs from "fs";
+import * as path from "path";
 
 import { makeYougileRequest } from "../common/request-helper.js";
 
