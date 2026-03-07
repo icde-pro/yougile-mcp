@@ -1,5 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
+import * as fs from "fs";
+import * as path from "path";
 
 import { makeYougileRequest } from "../common/request-helper.js";
 
@@ -133,7 +135,7 @@ export const registerTaskTools = (server: McpServer) => {
       assigned: z.array(z.string()).optional().describe("Array of user IDs to assign the task to"),
       completed: z.boolean().optional().describe("Mark task as completed"),
       archived: z.boolean().optional().describe("Archive/unarchive the task"),
-      stickers: z.record(z.string(), z.string()).optional().describe("Custom stickers as sticker ID → state ID. Use '-' to remove a sticker."),
+      stickers: z.record(z.string(), z.string()).optional().describe("Custom stickers as sticker ID → state ID. Use '-' to remove, sticker."),
     },
     async ({ id, title, description, columnId, assigned, completed, archived, stickers }) => {
       const taskData: any = {};
